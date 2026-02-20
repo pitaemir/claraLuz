@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Status do pedido</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container py-5" style="max-width: 860px;">
+    <div class="bg-white border rounded-4 p-4 p-md-5">
+      <div class="d-flex justify-content-between flex-wrap gap-2 align-items-start">
+        <div>
+          <h1 class="h4 fw-semibold mb-1">Pedido #{{ req.pk }}</h1>
+          <p class="text-secondary mb-0">{{ req.full_name }} • {{ req.email }}</p>
+        </div>
+        <div class="text-end">
+          <span class="badge text-bg-dark">Status: {{ req.get_status_display }}</span>
+          <div class="text-secondary small mt-2">Criado em {{ req.created_at }}</div>
+        </div>
+      </div>
+
+      <hr class="my-4">
+
+      <h2 class="h6 fw-semibold">Documentos enviados ({{ documents|length }})</h2>
+      {% if documents %}
+        <div class="list-group mt-3">
+          {% for d in documents %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <div class="fw-semibold">{{ d.get_doc_type_display }}</div>
+                {% if d.description %}<div class="text-secondary small">{{ d.description }}</div>{% endif %}
+                <div class="text-secondary small">Enviado em {{ d.uploaded_at }}</div>
+              </div>
+              <a class="btn btn-outline-secondary btn-sm" href="{{ d.file.url }}" target="_blank">Abrir</a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-secondary mt-2">Nenhum documento enviado ainda.</p>
+      {% endif %}
+
+      <div class="mt-4 d-flex gap-2">
+        <a class="btn btn-dark" href="{% url 'upload_docs' req.pk %}">Enviar mais documentos</a>
+        <a class="btn btn-outline-secondary" href="{% url 'home' %}">Voltar</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

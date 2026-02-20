@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Upload</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    <div class="container py-5" style="max-width: 980px;">
+      <div class="bg-white border rounded-4 p-4 p-md-5">
+        <h1 class="fw-semibold mb-1">Anexar documentos</h1>
+
+        <p class="text-secondary mb-3">
+          Pedido de: <strong>{{ req.full_name }}</strong> — envie PDFs ou imagens.
+        </p>
+
+        <!-- ✅ Card com o código do pedido -->
+        <div class="alert alert-warning d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+          <div>
+            <div class="fw-semibold mb-1">Guarde seu código do pedido</div>
+            <div class="text-muted small">
+              Use este código para consultar o status na página inicial.
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <span id="pedidoCodigo" class="badge text-bg-dark fs-6 px-3 py-2">{{ req.public_id }}</span>
+            <button type="button" class="btn btn-outline-dark btn-sm" onclick="copyCodigo()">
+              Copiar
+            </button>
+          </div>
+        </div>
+
+        <!-- ✅ FORM 1: enviar documento -->
+        <form method="post"
+              action="{% url 'upload_docs' public_id=req.public_id %}"
+              enctype="multipart/form-data"
+              class="border rounded-4 p-3 p-md-4 bg-light">
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">Tipo</label>
+              {{ form.doc_type }}
+              <div class="text-danger small">{{ form.doc_type.errors }}</div>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Descrição (opcional)</label>
+              {{ form.description }}
+              <div class="text-danger small">{{ form.description.errors }}</div>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Arquivo</label>
+              {{ form.file }}
+              <div class="form-text">Aceita PDF, JPG, PNG, WEBP (máx 20MB)</div>
+              <div class="text-danger small">{{ form.file.errors }}</div>
+            </div>
+          </div>
+
+          <div class="mt-3 d-flex flex-column flex-sm-row gap-2">
+            <button class="btn btn-dark" type="submit">Enviar documento</button>
+
+            <a href="{% url 'home' %}" class="btn btn-link text-decoration-none">
+              Voltar ao início
+            </a>
+          </div>
+        </form>
+
+        <!-- ✅ FORM 2: finalizar pedido (FORA do form de upload) -->
+        <form method="post"
+              action="{% url 'finalize_request' public_id=req.public_id %}"
+              class="mt-3">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-secondary">
+            Finalizar pedido
+          </button>
+        </form>
+
+        <hr class="my-4">
+
+        <h2 class="h5 mb-3">Documentos enviados</h2>
+        {% if documents %}
+          <div class="list-group">
+            {% for d in documents %}
+              <div class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+                <div>
+                  <div class="fw-semibold">{{ d.get_doc_type_display }}</div>
+                  {% if d.description %}
+                    <div class="text-secondary small">{{ d.description }}</div>
+                  {% endif %}
+                  <div class="text-secondary small">{{ d.uploaded_at }}</div>
+                </div>
+                <div>
+                  <a class="btn btn-sm btn-outline-dark" href="{{ d.file.url }}" target="_blank">Abrir</a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-secondary">Nenhum documento enviado ainda.</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <script>
+      // aplica classes bootstrap nos campos do Django
+      document.querySelectorAll("input, textarea, select").forEach(el => {
+        if (!el.classList.contains("form-control") && el.type !== "checkbox" && el.type !== "radio") {
+          el.classList.add("form-control");
+        }
+      });
+
+      function copyCodigo() {
+        const code = document.getElementById("pedidoCodigo").innerText;
+        navigator.clipboard.writeText(code).then(() => {
+          alert("Código copiado!");
+        });
+      }
+    </script>
+  </body>
+</html>

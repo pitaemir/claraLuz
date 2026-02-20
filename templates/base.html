@@ -1,0 +1,57 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Clara Luz{% endblock %}</title>
+
+  <!-- Tailwind via CDN (rápido pra protótipo) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Detalhezinho pra ficar “premium” */
+    .glass { background: rgba(255,255,255,.75); backdrop-filter: blur(8px); }
+  </style>
+
+  {% block head %}{% endblock %}
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 border-b border-slate-200 glass">
+    <div class="mx-auto max-w-6xl px-4">
+      <div class="flex h-16 items-center justify-between">
+        <a href="{% url 'home' %}" class="flex items-center gap-2 font-semibold">
+          <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-white">CL</span>
+          <span>ClaraLuz</span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-sm text-slate-600">
+          <a href="#como-funciona" class="hover:text-slate-900">Como funciona</a>
+          <a href="#beneficios" class="hover:text-slate-900">Benefícios</a>
+          <a href="#faq" class="hover:text-slate-900">FAQ</a>
+        </nav>
+
+        <div class="flex items-center gap-3">
+          <a href="{% url 'request_lattes' %}"
+             class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+            Começar
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {% block content %}{% endblock %}
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200">
+    <div class="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-600">
+      <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+        <p>© {% now "Y" %} ClaraLuz. Todos os direitos reservados.</p>
+        <p class="text-slate-500">Feito para facilitar seu pedido e envio de documentos.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
