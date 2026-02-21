@@ -35,18 +35,21 @@ def send_email(
     api_key = os.getenv("SENDGRID_API_KEY")
     if not api_key:
         raise SendGridError("SENDGRID_API_KEY não definida")
-
-    from_email = os.getenv("DEFAULT_FROM_EMAIL", "emirbraz.d2@gmail.com")
+    from_email = os.getenv("DEFAULT_FROM_EMAIL", "pedido_recebido@revisapramim.com.br")
+    default_reply_to = os.getenv("DEFAULT_REPLY_TO")
 
     payload = {
         "personalizations": [{"to": [{"email": to_email}]}],
-        "from": {"email": from_email},
+        "from": {"email": "pedido_recebido@revisapramim.com.br", "name": "Revisa Pra Mim"},
+        "reply_to": {"email": "emirbraz.d2@gmail.com"},
         "subject": subject,
         "content": [{"type": "text/plain", "value": text}],
     }
 
-    if reply_to:
-        payload["reply_to"] = {"email": reply_to}
+    # se o caller não passar reply_to, usa o padrão do .env
+    final_reply_to = reply_to or default_reply_to
+    if final_reply_to:
+        payload["reply_to"] = {"email": final_reply_to}
 
     if html:
         payload["content"].append({"type": "text/html", "value": html})
@@ -63,6 +66,6 @@ def send_email(
         json=payload,
         timeout=20,
     )
-
+    
     if r.status_code != 202:
         raise SendGridError(f"SendGrid falhou ({r.status_code}): {r.text}")
