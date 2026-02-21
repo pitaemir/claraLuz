@@ -6,9 +6,17 @@ MAX_FILE_MB = 20
 
 
 class LattesRequestForm(forms.ModelForm):
+    email_confirm = forms.EmailField(
+        label="Confirmar e-mail",
+        widget=forms.EmailInput(attrs={
+            "placeholder": "Repita seu e-mail",
+            "autocomplete": "email",
+        })
+    )
+
     class Meta:
         model = LattesRequest
-        fields = ["full_name", "email", "whatsapp", "goal", "deadline", "notes"]
+        fields = ["full_name", "email", "email_confirm", "whatsapp", "goal", "deadline", "notes"]
         widgets = {
             "deadline": forms.DateInput(format="%d/%m/%Y", attrs={
                 "type": "text",
@@ -28,6 +36,22 @@ class LattesRequestForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["deadline"].input_formats = ["%d/%m/%Y"]
 
+    def clean_full_name(self):
+        name = (self.cleaned_data.get("full_name") or "").strip()
+        parts = [p for p in name.split() if p]
+        if len(parts) < 2:
+            raise forms.ValidationError("Informe pelo menos nome e sobrenome.")
+        return name
+
+    def clean(self):
+        cleaned = super().clean()
+        email = (cleaned.get("email") or "").strip().lower()
+        email2 = (cleaned.get("email_confirm") or "").strip().lower()
+
+        if email and email2 and email != email2:
+            self.add_error("email_confirm", "Os e-mails não conferem.")
+
+        return cleaned
 
 class LattesDocumentForm(forms.ModelForm):
     class Meta:

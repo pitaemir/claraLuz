@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Revisa Pra Mim - Sobre{% endblock %}
+
+{% block content %}
+<section class="bg-white border-b border-slate-200">
+  <div class="mx-auto max-w-4xl px-4 py-14">
+    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+      Mais do que atualizar um Lattes, ajudamos você a contar sua trajetória acadêmica
+    </h1>
+
+    <p class="mt-4 text-lg text-slate-600">
+      O serviço de atualização de Currículo Lattes nasceu da necessidade real de estudantes e profissionais
+      que enfrentam dificuldades para organizar suas conquistas acadêmicas e profissionais dentro do sistema.
+    </p>
+  </div>
+</section>
+
+<section class="mx-auto max-w-4xl px-4 py-12 space-y-8">
+
+  <!-- O que é o serviço -->
+  <div>
+    <h2 class="text-xl font-bold">O que é o serviço</h2>
+    <p class="mt-2 text-slate-600">
+      Nosso trabalho consiste em organizar, estruturar e inserir corretamente suas informações no Currículo Lattes,
+      respeitando as normas do sistema e valorizando cada conquista da sua trajetória.
+    </p>
+    <p class="mt-2 text-slate-600">
+      A partir dos documentos enviados, realizamos uma curadoria das informações, categorizamos cada experiência
+      e garantimos que tudo esteja claro, completo e profissionalmente apresentado.
+    </p>
+  </div>
+
+  <!-- Objetivos -->
+  <div>
+    <h2 class="text-xl font-bold">Nossos objetivos</h2>
+    <ul class="mt-2 text-slate-600 space-y-1 list-disc pl-5">
+      <li>Facilitar o processo de atualização do Lattes</li>
+      <li>Evitar erros e inconsistências no preenchimento</li>
+      <li>Organizar informações acadêmicas e profissionais de forma estratégica</li>
+      <li>Valorizar sua trajetória para seleções, editais e oportunidades</li>
+      <li>Trazer tranquilidade durante um processo que costuma gerar dúvidas e ansiedade</li>
+    </ul>
+  </div>
+
+  <!-- Motivação -->
+  <div>
+    <h2 class="text-xl font-bold">Nossa motivação</h2>
+    <p class="mt-2 text-slate-600">
+      Sabemos que muitas pessoas acumulam certificados, experiências e produções ao longo dos anos,
+      mas encontram dificuldade para transformar tudo isso em um currículo estruturado dentro do Lattes.
+    </p>
+    <p class="mt-2 text-slate-600">
+      Foi dessa realidade que surgiu o serviço: ajudar pessoas a organizarem suas conquistas,
+      reduzindo a sobrecarga e garantindo que nada importante fique de fora.
+    </p>
+  </div>
+
+  <!-- O que esperar -->
+  <div>
+    <h2 class="text-xl font-bold">O que esperar de nós</h2>
+
+    <div class="mt-4 grid gap-4 md:grid-cols-2">
+      <div class="rounded-2xl border border-slate-200 p-5">
+        <h3 class="font-semibold">Atendimento humano</h3>
+        <p class="text-sm text-slate-600 mt-1">
+          Cada currículo é único e tratado com atenção individual.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 p-5">
+        <h3 class="font-semibold">Organização e clareza</h3>
+        <p class="text-sm text-slate-600 mt-1">
+          Estruturamos suas informações para facilitar leitura e avaliação.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 p-5">
+        <h3 class="font-semibold">Comunicação transparente</h3>
+        <p class="text-sm text-slate-600 mt-1">
+          Mantemos contato para ajustes, complementos e validações.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 p-5">
+        <h3 class="font-semibold">Foco no seu objetivo</h3>
+        <p class="text-sm text-slate-600 mt-1">
+          O currículo é estruturado considerando sua meta acadêmica ou profissional.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Encerramento narrativo -->
+  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+    <p class="text-slate-700">
+      Acreditamos que cada trajetória acadêmica representa esforço, dedicação e crescimento.
+      Nosso papel é transformar essas experiências em um Currículo Lattes organizado,
+      fiel à sua história e pronto para novas oportunidades.
+    </p>
+
+    <div class="mt-4">
+      <a href="{% url 'request_lattes' %}"
+         class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-6 py-3 text-white font-semibold hover:bg-slate-800">
+        Iniciar solicitação
+      </a>
+    </div>
+  </div>
+
+</section>
+{% endblock %}

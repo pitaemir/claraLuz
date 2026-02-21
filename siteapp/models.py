@@ -8,7 +8,7 @@ def generate_public_id() -> str:
     alphabet = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"
     # 8 chars -> bom equilíbrio
     suffix = "".join(secrets.choice(alphabet) for _ in range(8))
-    return f"CL-{suffix}"
+    return f"RPM-{suffix}"
 
 
 class LattesRequest(models.Model):

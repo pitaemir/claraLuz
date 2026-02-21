@@ -1,18 +1,104 @@
+{% load static %}
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Obrigado</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  </head>
-  <body class="bg-light">
-    <div class="container py-5" style="max-width: 860px;">
-      <div class="bg-white border rounded-4 p-5 text-center">
-        <h1 class="fw-semibold">Pedido recebido ✅</h1>
-        <p class="text-secondary mt-2">Seus dados foram enviados. Em breve entraremos em contato.</p>
-        <a class="btn btn-dark btn-lg mt-3" href="/">Voltar ao início</a>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pedido confirmado</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-50">
+
+  <div class="mx-auto max-w-2xl px-4 py-14">
+
+    <!-- Card -->
+    <div class="rounded-2xl bg-white border border-slate-200 p-8 shadow-sm">
+
+      <!-- Ícone sucesso -->
+      <div class="flex items-center justify-center">
+        <div class="h-14 w-14 rounded-full bg-green-100 flex items-center justify-center">
+          <span class="text-green-700 text-2xl">✓</span>
+        </div>
       </div>
+
+      <h1 class="text-center text-2xl font-bold mt-4">
+        Pedido confirmado
+      </h1>
+
+      <p class="text-center text-slate-600 mt-1">
+        Seu pedido foi recebido e já está em nosso sistema.
+      </p>
+
+      <!-- Dados do pedido -->
+      <div class="mt-6 rounded-xl border border-slate-200 p-5 space-y-3">
+
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-500">Código do pedido</span>
+          <span class="font-semibold">{{ request_obj.public_id }}</span>
+        </div>
+
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-500">Nome</span>
+          <span>{{ request_obj.full_name }}</span>
+        </div>
+
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-500">Email</span>
+          <span>{{ request_obj.email }}</span>
+        </div>
+
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-500">WhatsApp</span>
+          <span>{{ request_obj.whatsapp }}</span>
+        </div>
+
+        {% if request_obj.deadline %}
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-500">Prazo</span>
+          <span>{{ request_obj.deadline }}</span>
+        </div>
+        {% endif %}
+
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-500">Documentos enviados</span>
+          <span>{{ request_obj.documents.count }}</span>
+        </div>
+
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-500">Status</span>
+          <span class="rounded-full bg-slate-900 text-white px-2 py-1 text-xs">
+            {{ request_obj.get_status_display }}
+          </span>
+        </div>
+
+      </div>
+
+      <!-- Próximos passos -->
+      <div class="mt-6 rounded-xl bg-slate-50 p-5 text-sm text-slate-600">
+        <p class="font-semibold text-slate-900">Próximos passos</p>
+        <ul class="mt-2 list-disc pl-5 space-y-1">
+          <li>Você receberá uma confirmação por e-mail</li>
+          <li>Entraremos em contato se faltar algum documento</li>
+          <li>Você pode acompanhar o status usando o código do pedido</li>
+        </ul>
+      </div>
+
+      <!-- Ações -->
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+        <a href="/"
+           class="flex-1 rounded-xl bg-slate-900 px-4 py-3 text-white text-center font-semibold hover:bg-slate-800">
+          Voltar ao início
+        </a>
+
+        <a href="{% url 'request_lattes' %}"
+           class="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-center font-semibold hover:bg-slate-100">
+          Novo pedido
+        </a>
+      </div>
+
     </div>
-  </body>
+  </div>
+
+</body>
 </html>

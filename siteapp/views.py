@@ -164,11 +164,17 @@ def finalize_request(request, public_id: str):
 
     return redirect(f"{reverse('thank_you')}?code={lattes_request.public_id}")
 
-
 def thank_you(request):
     public_id = request.GET.get("code")
-    return render(request, "ty.html", {"public_id": public_id})
 
+    lattes_request = get_object_or_404(LattesRequest, public_id=public_id)
+
+    return render(request, "ty.html", {
+        "request_obj": lattes_request
+    })
 
 def request_lattes(request):
     return create_request(request)
+
+def about(request):
+    return render(request, "about.html")
