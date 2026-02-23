@@ -28,7 +28,6 @@ Em resumo, o sistema busca **minimizar o esforço do contratante e maximizar a p
 - Organização dos arquivos por categoria
 - Geração automática de código público do pedido
 - Consulta de status do pedido
-- Validação de dados (nome completo, confirmação de e-mail, formato de data)
 - Interface simples e responsiva
 - Página de confirmação com resumo do pedido
 
@@ -48,6 +47,9 @@ Em resumo, o sistema busca **minimizar o esforço do contratante e maximizar a p
 
 ### Banco de dados
 - SQLite (ambiente de desenvolvimento)
+
+### Integrações
+- **SendGrid** — envio de e-mails transacionais (confirmação de pedido e notificações)
 
 ---
 
@@ -70,11 +72,7 @@ O projeto surgiu da necessidade prática de organizar e padronizar a coleta de d
 ## Possíveis evoluções
 
 - Painel administrativo customizado
-- Notificações automáticas por e-mail
-- Integração com pagamentos
-- Dashboard de acompanhamento
-- Autenticação de usuários
-- Integração com APIs acadêmicas
+- Integração com pagamentos via Stripe
 
 ---
 
@@ -84,6 +82,6 @@ Projeto desenvolvido de forma independente como iniciativa pessoal para otimiza�
 
 ---
 
-## 📌 Observação
+## Observação
 
 Este projeto encontra-se em evolução contínua, com melhorias sendo aplicadas conforme novas necessidades surgem no uso real da aplicação.
