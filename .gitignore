@@ -13,3 +13,6 @@ media/
 
 # mac
 .DS_Store
+
+#readme
+README.md
