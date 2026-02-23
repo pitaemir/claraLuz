@@ -1,4 +1,4 @@
-# 📄 Revisa Pra Mim
+# Revisa Pra Mim
 
 O **Revisa Pra Mim** é uma aplicação web desenvolvida de forma autônoma com o objetivo de otimizar e profissionalizar o processo de solicitação e organização de serviços acadêmicos — em especial, a atualização de Currículo Lattes.
 
@@ -6,7 +6,7 @@ A proposta do sistema é reduzir o contato operacional entre cliente e prestador
 
 ---
 
-## 🚀 Finalidade do projeto
+## Finalidade do projeto
 
 O projeto foi criado para:
 
@@ -21,7 +21,7 @@ Em resumo, o sistema busca **minimizar o esforço do contratante e maximizar a p
 
 ---
 
-## 🧩 Funcionalidades
+## Funcionalidades
 
 - Solicitação de atualização do Currículo Lattes
 - Upload de documentos (PDF e imagens)
@@ -34,24 +34,24 @@ Em resumo, o sistema busca **minimizar o esforço do contratante e maximizar a p
 
 ---
 
-## 🛠️ Tecnologias utilizadas
+## Tecnologias utilizadas
 
-### 🔹 Backend
+### Backend
 - **Python**
 - **Django**
 - Django ORM (modelagem e persistência de dados)
 
-### 🔹 Frontend
+### Frontend
 - **HTML**
 - **Tailwind CSS**
 - JavaScript (validações e máscaras de input)
 
-### 🔹 Banco de dados
+### Banco de dados
 - SQLite (ambiente de desenvolvimento)
 
 ---
 
-## 📁 Estrutura geral
+## Estrutura geral
 
 - `models.py` → Estrutura de dados (Pedidos e Documentos)
 - `forms.py` → Validação e controle dos formulários
@@ -61,13 +61,13 @@ Em resumo, o sistema busca **minimizar o esforço do contratante e maximizar a p
 
 ---
 
-## 💡 Motivação
+## Motivação
 
 O projeto surgiu da necessidade prática de organizar e padronizar a coleta de documentos e informações enviadas por clientes para serviços acadêmicos. A partir dessa demanda real, a aplicação foi desenvolvida como uma solução simples, funcional e escalável.
 
 ---
 
-## 🔮 Possíveis evoluções
+## Possíveis evoluções
 
 - Painel administrativo customizado
 - Notificações automáticas por e-mail
@@ -78,7 +78,7 @@ O projeto surgiu da necessidade prática de organizar e padronizar a coleta de d
 
 ---
 
-## 👨‍💻 Autor
+## Autor
 
 Projeto desenvolvido de forma independente como iniciativa pessoal para otimização de fluxo de serviços acadêmicos.
 
