@@ -85,14 +85,7 @@ def finalize_request(request, public_id: str):
     # 2) EMAIL DO CLIENTE (digitado no site / salvo no model)
     customer_email = getattr(lattes_request, "email", None)
 
-    # Telefone
-    phone = (
-        getattr(lattes_request, "phone", None)
-        or getattr(lattes_request, "telefone", None)
-        or getattr(lattes_request, "celular", None)
-        or getattr(lattes_request, "whatsapp", None)
-        or "Não informado"
-    )
+    phone = lattes_request.whatsapp or "Não informado"
 
     docs = lattes_request.documents.order_by("uploaded_at")
 

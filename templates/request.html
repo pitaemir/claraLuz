@@ -47,6 +47,7 @@
         <div>
           <label class="text-sm font-medium">WhatsApp</label>
           {{ form.whatsapp }}
+          <div class="mt-1 text-sm text-red-600">{{ form.whatsapp.errors }}</div>
         </div>
 
         <div>
@@ -83,7 +84,7 @@
           Continuar para anexos
         </button>
 
-        <a href="/" class="rounded-xl border border-slate-300 px-5 py-3 hover:bg-slate-100">
+        <a href="{% url 'home' %}" class="rounded-xl border border-slate-300 px-5 py-3 hover:bg-slate-100">
           Voltar
         </a>
       </div>

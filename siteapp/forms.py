@@ -80,7 +80,7 @@ class LattesRequestLookupForm(forms.Form):
         label="Código do pedido",
         max_length=20,
         widget=forms.TextInput(attrs={
-            "placeholder": "Ex: CL-8F3K2Q9A",
+            "placeholder": "Ex: RPM-8F3K2Q9A",
             "autocomplete": "off",
         })
     )
