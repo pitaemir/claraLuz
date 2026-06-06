@@ -1,90 +1,83 @@
 {% extends "base.html" %}
-{% block title %}Revisa Pra Mim - Pedido{% endblock %}
+{% block title %}Revisa Pra Mim — Solicitar atualização{% endblock %}
 
 {% block content %}
-<div class="container mx-auto py-10" style="max-width: 860px;">
+<div class="mx-auto max-w-3xl px-4 py-10">
 
-  <!-- Card descrição -->
-  <div class="bg-white border rounded-2xl p-6 mb-6 shadow-sm">
-    <h1 class="text-xl font-semibold mb-2">Atualização do Currículo Lattes</h1>
-    <p class="text-slate-600 mb-4">
-      Nós organizamos e atualizamos seu Currículo Lattes de forma completa, padronizada e com atenção aos detalhes.
-      Você envia seus documentos e informações, e nós cuidamos do preenchimento correto no sistema.
+  <!-- Cabeçalho da página -->
+  <div class="mb-6 rounded-2xl bg-gradient-to-r from-[#1a3668] to-[#1a5fa8] p-6 text-white shadow">
+    <h1 class="text-2xl font-bold">Atualização do Currículo Lattes</h1>
+    <p class="mt-2 text-blue-100 text-sm">
+      Preencha seus dados abaixo. Na próxima etapa você anexa os documentos necessários.
     </p>
-
-    <div class="bg-slate-50 border rounded-xl p-4">
-      <h2 class="font-semibold mb-2">Como funciona</h2>
-      <ol class="list-decimal pl-5 text-sm text-slate-600 space-y-1">
-        <li>Você envia seus documentos (PDFs e imagens)</li>
-        <li>Nós conferimos e organizamos</li>
-        <li>Realizamos o preenchimento no Lattes</li>
-        <li>Você recebe a confirmação final</li>
-      </ol>
+    <div class="mt-4 grid grid-cols-3 gap-3 text-center text-xs">
+      <div class="rounded-xl bg-white/20 py-2 font-semibold">① Dados</div>
+      <div class="rounded-xl bg-white/10 py-2 text-blue-200">② Documentos</div>
+      <div class="rounded-xl bg-white/10 py-2 text-blue-200">③ Conclusão</div>
     </div>
   </div>
 
   <!-- Formulário -->
-  <div class="bg-white border rounded-2xl p-6 shadow-sm">
-    <h2 class="text-lg font-semibold mb-1">Solicitar atualização do Lattes</h2>
-    <p class="text-slate-600 mb-4">Preencha o básico. Na próxima etapa você anexa PDFs e imagens.</p>
+  <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <h2 class="text-lg font-semibold text-[#1a3668] mb-4">Seus dados</h2>
 
     <form method="post" novalidate>
       {% csrf_token %}
 
       {% if form.non_field_errors %}
-        <div class="bg-red-50 border border-red-200 text-red-700 p-3 rounded mb-3">
+        <div class="mb-4 rounded-xl bg-red-50 border border-red-200 p-3 text-sm text-red-700">
           {{ form.non_field_errors }}
         </div>
       {% endif %}
 
       <div class="grid gap-4 md:grid-cols-2">
         <div>
-          <label class="text-sm font-medium">Nome completo</label>
+          <label class="text-sm font-medium text-slate-700">Nome completo</label>
           {{ form.full_name }}
           <div class="mt-1 text-sm text-red-600">{{ form.full_name.errors }}</div>
         </div>
 
         <div>
-          <label class="text-sm font-medium">WhatsApp</label>
+          <label class="text-sm font-medium text-slate-700">WhatsApp</label>
           {{ form.whatsapp }}
           <div class="mt-1 text-sm text-red-600">{{ form.whatsapp.errors }}</div>
         </div>
 
         <div>
-          <label class="text-sm font-medium">Email</label>
+          <label class="text-sm font-medium text-slate-700">E-mail</label>
           {{ form.email }}
           <div class="mt-1 text-sm text-red-600">{{ form.email.errors }}</div>
         </div>
-        
+
         <div>
-          <label class="text-sm font-medium">Confirmar email</label>
+          <label class="text-sm font-medium text-slate-700">Confirmar e-mail</label>
           {{ form.email_confirm }}
           <div class="mt-1 text-sm text-red-600">{{ form.email_confirm.errors }}</div>
         </div>
 
         <div>
-          <label class="text-sm font-medium">Prazo (opcional)</label>
+          <label class="text-sm font-medium text-slate-700">Prazo <span class="text-slate-400">(opcional)</span></label>
           {{ form.deadline }}
         </div>
 
-        <div class="md:col-span-2">
-          <label class="text-sm font-medium">Objetivo(opcional)</label>
+        <div>
+          <label class="text-sm font-medium text-slate-700">Objetivo <span class="text-slate-400">(opcional)</span></label>
           {{ form.goal }}
         </div>
 
         <div class="md:col-span-2">
-          <label class="text-sm font-medium">Observações(opcional)</label>
+          <label class="text-sm font-medium text-slate-700">Observações <span class="text-slate-400">(opcional)</span></label>
           {{ form.notes }}
         </div>
-
       </div>
 
-      <div class="mt-6 flex gap-3">
-        <button class="rounded-xl bg-slate-900 px-5 py-3 text-white font-semibold hover:bg-slate-800">
-          Continuar para anexos
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+        <button type="submit"
+                class="rounded-xl bg-[#4caf50] px-6 py-3 text-white font-semibold hover:bg-[#43a047] transition-colors shadow">
+          Continuar para anexos →
         </button>
-
-        <a href="{% url 'home' %}" class="rounded-xl border border-slate-300 px-5 py-3 hover:bg-slate-100">
+        <a href="{% url 'home' %}"
+           class="rounded-xl border border-slate-300 px-6 py-3 text-center font-medium text-slate-700 hover:bg-slate-50 transition-colors">
           Voltar
         </a>
       </div>
@@ -96,31 +89,24 @@
 <script>
 document.querySelectorAll("input, textarea, select").forEach(el => {
   el.classList.add(
-    "w-full", "rounded-xl", "border", "border-slate-300",
-    "px-3", "py-2", "mt-1",
-    "focus:outline-none", "focus:ring-2", "focus:ring-slate-400"
+    "mt-1", "w-full", "rounded-xl", "border", "border-slate-300",
+    "px-3", "py-2", "text-slate-900",
+    "focus:outline-none", "focus:ring-2", "focus:ring-[#1a5fa8]"
   );
 });
-</script>
-<script>
-  const deadlineInput = document.querySelector('input[name="deadline"]');
 
-  function formatDateBR(value) {
-    const digits = value.replace(/\D/g, "").slice(0, 8);
+const deadlineInput = document.querySelector('input[name="deadline"]');
+if (deadlineInput) {
+  deadlineInput.addEventListener("input", (e) => {
+    const digits = e.target.value.replace(/\D/g, "").slice(0, 8);
     const d = digits.slice(0, 2);
     const m = digits.slice(2, 4);
     const y = digits.slice(4, 8);
     let out = d;
     if (m.length) out += "/" + m;
     if (y.length) out += "/" + y;
-    return out;
-  }
-
-  if (deadlineInput) {
-    deadlineInput.addEventListener("input", (e) => {
-      e.target.value = formatDateBR(e.target.value);
-    });
-  }
+    e.target.value = out;
+  });
+}
 </script>
-
 {% endblock %}

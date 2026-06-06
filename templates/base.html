@@ -5,54 +5,47 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{% block title %}Revisa Pra Mim{% endblock %}</title>
-
-  <!-- Tailwind via CDN (rápido pra protótipo) -->
   <script src="https://cdn.tailwindcss.com"></script>
-
   <style>
-    /* Detalhezinho pra ficar “premium” */
-    .glass { background: rgba(255,255,255,.75); backdrop-filter: blur(8px); }
+    .glass { background: rgba(255,255,255,.9); backdrop-filter: blur(8px); }
   </style>
-
   {% block head %}{% endblock %}
 </head>
 <body class="bg-slate-50 text-slate-900">
-  <!-- Header -->
-  <header class="sticky top-0 z-40 border-b border-slate-200 glass">
+
+  <header class="sticky top-0 z-40 border-b border-slate-200 glass shadow-sm">
     <div class="mx-auto max-w-6xl px-4">
       <div class="flex h-16 items-center justify-between">
-        <a href="{% url 'home' %}" class="flex items-center gap-2 font-semibold">
-          <span class="inline-flex h-9 w-11 items-center justify-center rounded-xl bg-slate-900 text-white">RPM</span>
-          <span>Revisa Pra Mim</span>
+        <a href="{% url 'home' %}">
+          <img src="{% static 'img/logo.png' %}" alt="Revisa Pra Mim" class="h-10">
         </a>
 
-        <nav class="hidden md:flex items-center gap-6 text-sm text-slate-600">
-          <a href="#como-funciona" class="hover:text-slate-900">Como funciona</a>
-          <a href="#beneficios" class="hover:text-slate-900">Benefícios</a>
-          <a href="#faq" class="hover:text-slate-900">FAQ</a>
-          <a href="{% url 'about' %}">Sobre nós</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+          <a href="#como-funciona" class="hover:text-[#1a5fa8]">Como funciona</a>
+          <a href="#beneficios"    class="hover:text-[#1a5fa8]">Benefícios</a>
+          <a href="#faq"           class="hover:text-[#1a5fa8]">FAQ</a>
+          <a href="{% url 'about' %}" class="hover:text-[#1a5fa8]">Sobre nós</a>
         </nav>
 
-        <div class="flex items-center gap-3">
-          <a href="{% url 'request_lattes' %}"
-             class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
-            Começar
-          </a>
-        </div>
+        <a href="{% url 'request_lattes' %}"
+           class="inline-flex items-center justify-center rounded-xl bg-[#4caf50] px-4 py-2 text-sm font-semibold text-white hover:bg-[#43a047] transition-colors">
+          Começar
+        </a>
       </div>
     </div>
   </header>
 
   {% block content %}{% endblock %}
 
-  <!-- Footer -->
-  <footer class="border-t border-slate-200">
-    <div class="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-600">
-      <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-        <p>© {% now "Y" %} Revisa Pra Mim. Todos os direitos reservados.</p>
-        <p class="text-slate-500">Feito para facilitar seu pedido e envio de documentos.</p>
+  <footer class="bg-[#1a3668] text-white">
+    <div class="mx-auto max-w-6xl px-4 py-10 text-sm">
+      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <img src="{% static 'img/logo.png' %}" alt="Revisa Pra Mim" class="h-10 brightness-0 invert">
+        <p class="text-slate-300">© {% now "Y" %} Revisa Pra Mim. Todos os direitos reservados.</p>
+        <p class="text-slate-400">Feito para facilitar seu pedido e envio de documentos.</p>
       </div>
     </div>
   </footer>
+
 </body>
 </html>

@@ -3,32 +3,40 @@
 
 {% block content %}
 <div class="mx-auto max-w-2xl px-4 py-14">
+
   <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
 
     <!-- Ícone de sucesso -->
     <div class="flex justify-center">
-      <div class="flex h-14 w-14 items-center justify-center rounded-full bg-green-100">
-        <span class="text-2xl text-green-700">✓</span>
+      <div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#4caf50]">
+        <span class="text-3xl text-white font-bold">✓</span>
       </div>
     </div>
 
-    <h1 class="mt-4 text-center text-2xl font-bold">Pedido confirmado</h1>
+    <h1 class="mt-5 text-center text-2xl font-bold text-[#1a3668]">Pedido confirmado!</h1>
     <p class="mt-1 text-center text-slate-600">
-      Seu pedido foi recebido e já está em nosso sistema.
+      Seus documentos foram recebidos. Em breve entraremos em contato.
     </p>
 
+    <!-- Progresso final -->
+    <div class="mt-6 grid grid-cols-3 gap-3 text-center text-xs">
+      <div class="rounded-xl bg-green-50 border border-green-200 py-2 text-green-700 font-semibold">① Dados ✓</div>
+      <div class="rounded-xl bg-green-50 border border-green-200 py-2 text-green-700 font-semibold">② Documentos ✓</div>
+      <div class="rounded-xl bg-[#4caf50] py-2 text-white font-semibold">③ Concluído ✓</div>
+    </div>
+
     <!-- Dados do pedido -->
-    <div class="mt-6 space-y-3 rounded-xl border border-slate-200 p-5 text-sm">
+    <div class="mt-6 space-y-3 rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm">
       <div class="flex justify-between">
         <span class="text-slate-500">Código do pedido</span>
-        <span class="font-semibold">{{ request_obj.public_id }}</span>
+        <span class="font-bold text-[#1a5fa8]">{{ request_obj.public_id }}</span>
       </div>
       <div class="flex justify-between">
         <span class="text-slate-500">Nome</span>
-        <span>{{ request_obj.full_name }}</span>
+        <span class="font-medium">{{ request_obj.full_name }}</span>
       </div>
       <div class="flex justify-between">
-        <span class="text-slate-500">Email</span>
+        <span class="text-slate-500">E-mail</span>
         <span>{{ request_obj.email }}</span>
       </div>
       <div class="flex justify-between">
@@ -43,34 +51,34 @@
       {% endif %}
       <div class="flex justify-between">
         <span class="text-slate-500">Documentos enviados</span>
-        <span>{{ request_obj.documents.count }}</span>
+        <span class="font-semibold text-[#4caf50]">{{ request_obj.documents.count }}</span>
       </div>
-      <div class="flex justify-between">
+      <div class="flex justify-between items-center">
         <span class="text-slate-500">Status</span>
-        <span class="rounded-full bg-slate-900 px-2 py-1 text-xs text-white">
+        <span class="rounded-full bg-[#1a5fa8] px-3 py-1 text-xs font-semibold text-white">
           {{ request_obj.get_status_display }}
         </span>
       </div>
     </div>
 
     <!-- Próximos passos -->
-    <div class="mt-6 rounded-xl bg-slate-50 p-5 text-sm text-slate-600">
-      <p class="font-semibold text-slate-900">Próximos passos</p>
-      <ul class="mt-2 list-disc space-y-1 pl-5">
-        <li>Você receberá uma confirmação por e-mail</li>
-        <li>Entraremos em contato se faltar algum documento</li>
-        <li>Você pode acompanhar o status usando o código do pedido</li>
+    <div class="mt-6 rounded-2xl bg-blue-50 border border-blue-100 p-5 text-sm">
+      <p class="font-semibold text-[#1a3668]">Próximos passos</p>
+      <ul class="mt-2 space-y-2 text-slate-600">
+        <li class="flex items-start gap-2"><span class="text-[#4caf50] font-bold">✓</span> Você receberá uma confirmação por e-mail</li>
+        <li class="flex items-start gap-2"><span class="text-[#4caf50] font-bold">✓</span> Entraremos em contato se faltar algum documento</li>
+        <li class="flex items-start gap-2"><span class="text-[#4caf50] font-bold">✓</span> Acompanhe o status usando o código do pedido na página inicial</li>
       </ul>
     </div>
 
     <!-- Ações -->
     <div class="mt-6 flex flex-col gap-3 sm:flex-row">
       <a href="{% url 'home' %}"
-         class="flex-1 rounded-xl bg-slate-900 px-4 py-3 text-center font-semibold text-white hover:bg-slate-800">
+         class="flex-1 rounded-xl bg-[#1a5fa8] px-4 py-3 text-center font-semibold text-white hover:bg-[#155090] transition-colors">
         Voltar ao início
       </a>
       <a href="{% url 'request_lattes' %}"
-         class="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-center font-semibold hover:bg-slate-100">
+         class="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-center font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
         Novo pedido
       </a>
     </div>
