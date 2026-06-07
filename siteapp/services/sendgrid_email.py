@@ -21,6 +21,7 @@ def send_email(
     to_email: str,
     subject: str,
     text: str,
+    html: str | None = None,
     reply_to: str | None = None,
     attachments: list | None = None,
 ):
@@ -33,6 +34,10 @@ def send_email(
         to=[to_email],
         reply_to=[reply_to] if reply_to else [],
     )
+
+    if html:
+        msg.content_subtype = "html"
+        msg.body = html
 
     if attachments:
         for filename, content, mime_type in attachments:

@@ -3,6 +3,7 @@ import os
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
 
 from .forms import LattesRequestForm, LattesDocumentForm, LattesRequestLookupForm
 from .models import LattesRequest
@@ -67,89 +68,46 @@ def upload_docs(request, public_id: str):
     )
 
 def finalize_request(request, public_id: str):
-    """
-    Envia e-mail interno (responsável) SOMENTE quando o usuário clicar em "Finalizar pedido".
-    Também envia uma confirmação para o e-mail que o cliente informou no site.
-    Inclui dados do cliente e anexa os documentos enviados NO E-MAIL INTERNO.
-    """
     lattes_request = get_object_or_404(LattesRequest, public_id=public_id)
 
     if request.method != "POST":
         return redirect("upload_docs", public_id=public_id)
 
-    # 1) PARA QUEM VAI O EMAIL INTERNO (VOCÊ / RESPONSÁVEL)
-    # Coloque no .env: CLIENT_EMAIL=seuemail@dominio.com
-    # Se não tiver, cai para settings.DEFAULT_FROM_EMAIL (ou configure ADMIN_EMAIL)
-    internal_to_email = os.getenv("CLIENT_EMAIL") or getattr(settings, "ADMIN_EMAIL", None) or settings.DEFAULT_FROM_EMAIL
-
-    # 2) EMAIL DO CLIENTE (digitado no site / salvo no model)
-    customer_email = getattr(lattes_request, "email", None)
-
-    phone = lattes_request.whatsapp or "Não informado"
+    internal_to_email = os.getenv("CLIENT_EMAIL") or settings.DEFAULT_FROM_EMAIL
+    customer_email = lattes_request.email
+    customer_reply_to = os.getenv("DEFAULT_REPLY_TO") or internal_to_email
 
     docs = lattes_request.documents.order_by("uploaded_at")
 
     attachments = []
-    skipped = 0
-
     for d in docs:
-        file_field = getattr(d, "file", None) or getattr(d, "document", None) or getattr(d, "arquivo", None)
-        if not file_field:
-            skipped += 1
-            continue
-
         try:
-            file_path = file_field.path
-            filename = os.path.basename(file_path)
-            attachments.append(file_to_sendgrid_attachment(file_path=file_path, filename=filename))
+            attachments.append(file_to_sendgrid_attachment(file_path=d.file.path, filename=os.path.basename(d.file.path)))
         except Exception:
-            skipped += 1
+            pass
 
-    # Texto do e-mail interno (com anexos)
-    internal_text = (
-        "Pedido FINALIZADO (Lattes)\n\n"
-        f"Código: {lattes_request.public_id}\n"
-        f"Cliente (email): {customer_email or 'Não informado'}\n"
-        f"Cliente (telefone): {phone}\n"
-        f"Documentos anexados: {len(attachments)}\n"
-    )
-    if skipped:
-        internal_text += f"Documentos ignorados (sem arquivo/path): {skipped}\n"
-
-    # Texto do e-mail do cliente (confirmação simples)
-    customer_text = (
-        "Recebemos seu pedido ✅\n\n"
-        f"Código do pedido: {lattes_request.public_id}\n"
-        "Obrigado! Seus documentos foram recebidos e vamos iniciar a análise.\n"
-        "Se precisar falar com a gente, responda este e-mail.\n"
-    )
-
-    # Reply-to para o cliente responder (ideal: seu contato do domínio)
-    # Coloque no .env: DEFAULT_REPLY_TO=contato@revisapramim.com.br
-    customer_reply_to = os.getenv("DEFAULT_REPLY_TO") or os.getenv("CLIENT_EMAIL") or internal_to_email
+    ctx = {"pedido": lattes_request, "documentos": docs, "total_docs": len(attachments)}
 
     try:
-        # A) ENVIO INTERNO (VOCÊ / RESPONSÁVEL) — COM ANEXOS
         send_email(
             to_email=internal_to_email,
-            subject=f"Pedido finalizado - {lattes_request.public_id}",
-            text=internal_text,
-            reply_to=customer_email,  # você responde e vai pro cliente
-            attachments=attachments if attachments else None,
+            subject=f"Novo pedido finalizado — {lattes_request.public_id}",
+            text=f"Pedido {lattes_request.public_id} finalizado por {lattes_request.full_name}.",
+            html=render_to_string("emails/notificacao_interna.html", ctx),
+            reply_to=customer_email,
+            attachments=attachments or None,
         )
 
-        # B) ENVIO PARA O CLIENTE — SEM ANEXOS
-        # Só envia se houver e-mail válido no pedido
         if customer_email:
             send_email(
                 to_email=customer_email,
-                subject=f"Recebemos seu pedido ({lattes_request.public_id})",
-                text=customer_text,
-                reply_to=customer_reply_to,  # cliente responde e volta pra você
-                attachments=None,
+                subject=f"Pedido confirmado — {lattes_request.public_id}",
+                text=f"Seu pedido {lattes_request.public_id} foi recebido! Em breve entraremos em contato.",
+                html=render_to_string("emails/confirmacao_cliente.html", ctx),
+                reply_to=customer_reply_to,
             )
 
-        messages.success(request, "Pedido finalizado! E-mails enviados (responsável e cliente).")
+        messages.success(request, "Pedido finalizado! E-mails enviados.")
 
     except Exception as e:
         messages.error(request, f"Não foi possível enviar o e-mail agora. Erro: {e}")
