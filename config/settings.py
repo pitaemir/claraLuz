@@ -38,6 +38,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.ngrok-free.dev",
+    "https://*.ngrok-free.app",
+    "https://revisapramim.com.br",
+    "https://www.revisapramim.com.br",
+]
+
 
 # Application definition
 
